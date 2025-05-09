@@ -1,0 +1,29 @@
+{
+  "name": "lessurl",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./dist/index.js",
+    "dev": "tsx watch --env-file=.env ./src/index.ts",
+    "build": "tsc -p tsconfig.json"
+  },
+  "keywords": [
+    "url",
+    "short",
+    "shortener"
+  ],
+  "author": "Sergey Yarkov",
+  "license": "MIT",
+  "description": "Service to shortcut your URLs.",
+  "dependencies": {
+    "@fastify/redis": "^7.0.2",
+    "fastify": "^5.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.15",
+    "json-schema-to-ts": "^3.1.1",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  }
+}
