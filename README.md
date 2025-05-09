@@ -4,7 +4,7 @@ Service to shortcut your URLs.
 
 ## How to use
 
-Send the `GET` request to `https://service/cut` with next query parameters:
+Send the `GET` request to `https://service.app/cut` with next query parameters:
 
 - Required `u` - your URL.
 - Optional `n` - name for your url.

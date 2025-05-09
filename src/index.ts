@@ -1,11 +1,11 @@
 import fastify from 'fastify';
 import fastifyRedis from '@fastify/redis';
-import env from '@/env.js';
+import fastifyStatic from '@fastify/static';
 import crypto from 'node:crypto';
+import path from 'node:path';
 import { FromSchema } from 'json-schema-to-ts';
 import { cutOperationQSSchema } from '@/schemas/index.js';
-
-var MAX_EXP_TIME_MINS = 100_000;
+import env from '@/env.js';
 
 var server = fastify({ logger: true });
 
@@ -14,6 +14,13 @@ server.register(fastifyRedis, {
   password: env.REDIS_PASSWORD,
   port: env.REDIS_PORT,
 });
+
+server.register(fastifyStatic, {
+  root: path.join(import.meta.dirname, '../public'),
+  wildcard: true,
+});
+
+server.get('/', (req, reply) => reply.sendFile('index.html'));
 
 server.get<{ Querystring: FromSchema<typeof cutOperationQSSchema> }>(
   '/cut',
@@ -31,16 +38,9 @@ server.get<{ Querystring: FromSchema<typeof cutOperationQSSchema> }>(
       }
     }
 
-    if (expTimeMins) {
-      if (expTimeMins >= MAX_EXP_TIME_MINS) expTimeMins = MAX_EXP_TIME_MINS;
-      var expTimeSecs = expTimeMins * 60;
+    await redis.set(storeKey, originalUrl);
 
-      console.log(expTimeMins);
-
-      await redis.expireat(storeKey, expTimeSecs);
-    }
-
-    redis.set(storeKey, originalUrl);
+    if (expTimeMins) await redis.expire(storeKey, expTimeMins * 60);
 
     return reply.status(200).send(`${req.protocol}://${req.host}/${storeKey.split(':').at(-1)}`);
   }
