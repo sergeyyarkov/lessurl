@@ -9,7 +9,7 @@
     <script defer type="module" src="/js/app.js"></script>
   </head>
   <body>
-    <div x-data>
+    <div x-data="app">
       <div class="p-5 mt-2 max-w-5xl ml-auto mr-auto">
         <!-- Info heading -->
         <div class="mt-10 text-center">
@@ -17,53 +17,63 @@
           <p>Service for shortcut your URLs.</p>
         </div>
         <!-- Main input -->
-        <div class="flex gap-2 mt-5">
-          <div class="w-full">
-            <label class="input input-xl w-full rounded-2xl validator">
-              <svg
-                class="h-[1em] opacity-50"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-              >
-                <g
-                  stroke-linejoin="round"
-                  stroke-linecap="round"
-                  stroke-width="2.5"
-                  fill="none"
-                  stroke="currentColor"
+        <form @submit="handleSubmitForm">
+          <div class="flex flex-wrap md:flex-nowrap gap-2 mt-5">
+            <input
+              class="input input-xl rounded-2xl w-full md:max-w-50"
+              type="text"
+              name="n"
+              placeholder="URL name"
+            />
+            <div class="w-full">
+              <label class="input input-xl w-full rounded-2xl validator">
+                <svg
+                  class="h-[1em] opacity-50"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
                 >
-                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                </g>
-              </svg>
-              <input
-                type="url"
-                required
-                placeholder="http(s)://"
-                pattern="^(http|https)://?([a-zA-Z0-9]([a-zA-Z0-9\-].*[a-zA-Z0-9])?\.)+[a-zA-Z].*$"
-                title="Must be valid URL"
-              />
-            </label>
-            <p class="validator-hint">Must be valid URL</p>
+                  <g
+                    stroke-linejoin="round"
+                    stroke-linecap="round"
+                    stroke-width="2.5"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                  </g>
+                </svg>
+                <input
+                  required
+                  type="url"
+                  name="u"
+                  placeholder="http(s)://"
+                  pattern="^(http|https)://?([a-zA-Z0-9]([a-zA-Z0-9\-].*[a-zA-Z0-9])?\.)+[a-zA-Z].*$"
+                  title="Must be valid URL"
+                />
+              </label>
+              <p class="validator-hint">Must be valid URL</p>
+            </div>
+            <input
+              class="input input-xl max-w-[110px] rounded-2xl"
+              type="text"
+              name="e"
+              maxlength="7"
+              placeholder="exp. min"
+            />
+            <button type="submit" class="btn btn-xl rounded-2xl">
+              <span x-cloak :hidden="!isProcessingCutUrl" class="loading loading-spinner"></span>
+              Short URL
+            </button>
           </div>
-          <input
-            class="input input-xl max-w-[110px] rounded-2xl"
-            type="text"
-            maxlength="7"
-            placeholder="exp. min"
-          />
-          <button class="btn btn-xl rounded-2xl">
-            <span class="hidden loading loading-spinner"></span>
-            Short URL
-          </button>
-        </div>
+        </form>
         <!-- Request result -->
-        <div class="flex justify-center items-center gap-4">
+        <div x-cloak x-show="shortedUrl" class="flex justify-center items-center gap-4">
           <span>Your URL:</span>
-          <a class="link link-primary" target="_blank" href="https://youtube.com"
-            >https://youtube.com</a
-          >
-          <button class="btn btn-sm btn-neutral rounded-2xl join-item">Copy</button>
+          <a x-text="shortedUrl" class="link link-primary" target="_blank" :href="shortedUrl"> </a>
+          <button @click="copyUrl" class="btn btn-sm btn-neutral rounded-2xl join-item">
+            Copy
+          </button>
         </div>
         <div class="bg-base-content/10 mx-1 mt-10 mb-2 h-px"></div>
         <!-- Footer info -->
@@ -78,9 +88,15 @@
         </div>
       </div>
       <!-- Copied toast info -->
-      <div hidden class="toast toast-center toast-middle">
+      <div hidden x-ref="copyUrlToast" class="toast toast-center toast-middle">
         <div class="alert">
           <span>URL copied.</span>
+        </div>
+      </div>
+      <!-- Error toast info -->
+      <div x-cloak :hidden="!errorCutReqMessage" class="toast toast-center toast-middle">
+        <div class="alert alert-error">
+          <span>Request error: <span x-text="errorCutReqMessage"></span></span>
         </div>
       </div>
     </div>
