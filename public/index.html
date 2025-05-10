@@ -3,16 +3,85 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>lessurl</title>
+    <meta name="robots" content="noindex" />
+    <title>🔗 Less URL</title>
+    <link href="/css/dist.css" rel="stylesheet" />
+    <script defer type="module" src="/js/app.js"></script>
   </head>
   <body>
-    <div>
-      <div>
-        <div>
-          <input type="text" />
-          <button>Cut URL</button>
+    <div x-data>
+      <div class="p-5 mt-2 max-w-5xl ml-auto mr-auto">
+        <!-- Info heading -->
+        <div class="mt-10 text-center">
+          <h1 class="text-4xl mb-2 font-bold">🔗 Less URL</h1>
+          <p>Service for shortcut your URLs.</p>
         </div>
-        <!-- Result short URL -->
+        <!-- Main input -->
+        <div class="flex gap-2 mt-5">
+          <div class="w-full">
+            <label class="input input-xl w-full rounded-2xl validator">
+              <svg
+                class="h-[1em] opacity-50"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <g
+                  stroke-linejoin="round"
+                  stroke-linecap="round"
+                  stroke-width="2.5"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                </g>
+              </svg>
+              <input
+                type="url"
+                required
+                placeholder="http(s)://"
+                pattern="^(http|https)://?([a-zA-Z0-9]([a-zA-Z0-9\-].*[a-zA-Z0-9])?\.)+[a-zA-Z].*$"
+                title="Must be valid URL"
+              />
+            </label>
+            <p class="validator-hint">Must be valid URL</p>
+          </div>
+          <input
+            class="input input-xl max-w-[110px] rounded-2xl"
+            type="text"
+            maxlength="7"
+            placeholder="exp. min"
+          />
+          <button class="btn btn-xl rounded-2xl">
+            <span class="hidden loading loading-spinner"></span>
+            Short URL
+          </button>
+        </div>
+        <!-- Request result -->
+        <div class="flex justify-center items-center gap-4">
+          <span>Your URL:</span>
+          <a class="link link-primary" target="_blank" href="https://youtube.com"
+            >https://youtube.com</a
+          >
+          <button class="btn btn-sm btn-neutral rounded-2xl join-item">Copy</button>
+        </div>
+        <div class="bg-base-content/10 mx-1 mt-10 mb-2 h-px"></div>
+        <!-- Footer info -->
+        <div class="flex justify-between">
+          <p class="bg-base-100 text-gray-400"><i>Created by Sergey Yarkov</i></p>
+          <a
+            class="link link-primary"
+            target="_blank"
+            href="https://github.com/sergeyyarkov/lessurl"
+            >GitHub</a
+          >
+        </div>
+      </div>
+      <!-- Copied toast info -->
+      <div hidden class="toast toast-center toast-middle">
+        <div class="alert">
+          <span>URL copied.</span>
+        </div>
       </div>
     </div>
   </body>

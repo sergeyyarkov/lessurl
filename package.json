@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node ./dist/index.js",
     "dev": "tsx watch --env-file=.env ./src/index.ts",
+    "twd": "tailwindcss -i ./public/css/main.css -o ./public/css/dist.css --watch",
     "build": "tsc -p tsconfig.json"
   },
   "keywords": [
@@ -22,8 +23,11 @@
     "fastify": "^5.3.2"
   },
   "devDependencies": {
+    "@tailwindcss/cli": "^4.1.6",
     "@types/node": "^22.15.15",
+    "daisyui": "^5.0.35",
     "json-schema-to-ts": "^3.1.1",
+    "tailwindcss": "^4.1.6",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   }
