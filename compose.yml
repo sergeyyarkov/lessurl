@@ -1,10 +1,11 @@
 services:
-  app:
+  lessurl:
     build:
       context: .
       target: production
       dockerfile: dockerfile
-    container_name: lessurl-app
+    restart: 'always'
+    container_name: lessurl
     env_file: .env
     ports:
       - 3000:3000
