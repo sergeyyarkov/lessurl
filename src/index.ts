@@ -7,7 +7,7 @@ import { FromSchema } from 'json-schema-to-ts';
 import { cutOperationQSSchema } from '@/schemas/index.js';
 import env from '@/env.js';
 
-var server = fastify({ logger: true });
+var server = fastify({ logger: true, trustProxy: true });
 
 server.register(fastifyRedis, {
   host: env.REDIS_HOST,
