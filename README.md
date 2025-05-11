@@ -2,6 +2,8 @@
 
 Service to shortcut your URLs.
 
+![Application web-interface](app-screen.png)
+
 ## How to install
 
 1. Clone this repository `git clone git@github.com:sergeyyarkov/lessurl.git`.
