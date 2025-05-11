@@ -58,7 +58,7 @@ server.get<{ Params: { name: string } }>('/:name', async (req, reply) => {
 
 async function bootstrap() {
   try {
-    await server.listen({ port: 3000 });
+    await server.listen({ port: 3000, host: '0.0.0.0' });
   } catch (err) {
     server.log.error(err);
     process.exit(1);

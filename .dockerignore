@@ -1,0 +1,11 @@
+node_modules
+dist
+.env
+.env.example
+public/css/dist.css
+.git
+.gitignore
+dockerfile
+.dockerignore
+.vscode
+README.md
